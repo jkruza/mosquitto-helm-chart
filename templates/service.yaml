@@ -14,6 +14,7 @@ metadata:
 spec:
   {{- if .Values.tailscale.enabled }}
   type: LoadBalancer
+  loadBalancerClass: tailscale
   {{- else }}
   type: {{ .Values.service.type }}
   {{- end }}
