@@ -9,6 +9,14 @@ service:
   type: ClusterIP
   port: 1883
 
+# Tailscale configuration for exposing service
+tailscale:
+  # Enable Tailscale load balancer
+  enabled: false
+  # Optional hostname for the Tailscale load balancer
+  # If not specified, Tailscale will use auto-generated hostname
+  hostname: ""
+
 persistence:
   enabled: true
   accessMode: ReadWriteOnce

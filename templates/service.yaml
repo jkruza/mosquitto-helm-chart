@@ -4,8 +4,19 @@ metadata:
   name: {{ .Release.Name }}-mosquitto
   labels:
     app: {{ .Chart.Name }}
+  {{- if .Values.tailscale.enabled }}
+  annotations:
+    tailscale.com/expose: "true"
+    {{- if .Values.tailscale.hostname }}
+    tailscale.com/hostname: {{ .Values.tailscale.hostname | quote }}
+    {{- end }}
+  {{- end }}
 spec:
+  {{- if .Values.tailscale.enabled }}
+  type: LoadBalancer
+  {{- else }}
   type: {{ .Values.service.type }}
+  {{- end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: 1883
