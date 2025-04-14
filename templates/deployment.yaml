@@ -14,20 +14,6 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-      initContainers:
-        - name: copy-default-config
-          image: busybox
-          command: ["/bin/sh", "-c"]
-          args:
-            - >
-              if [ ! -f /mosquitto/config/mosquitto.conf ]; then
-                cp /mosquitto/config-default/mosquitto.conf /mosquitto/config/mosquitto.conf;
-              fi;
-          volumeMounts:
-            - name: mosquitto-default
-              mountPath: /mosquitto/config-default
-            - name: mosquitto-config
-              mountPath: /mosquitto/config
       containers:
         - name: mosquitto
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -37,16 +23,13 @@ spec:
           volumeMounts:
             - name: mosquitto-data
               mountPath: /mosquitto/data
-            - name: mosquitto-default
-              mountPath: /mosquitto/config-default
             - name: mosquitto-config
               mountPath: /mosquitto/config
       volumes:
         - name: mosquitto-data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-mosquitto-data
-        - name: mosquitto-default
+        - name: mosquitto-config
           configMap:
             name: {{ .Release.Name }}-mosquitto-config
-        - name: mosquitto-config
-          emptyDir: {}
+
