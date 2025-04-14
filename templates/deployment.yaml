@@ -24,9 +24,9 @@ spec:
                 cp /mosquitto/config-default/mosquitto.conf /mosquitto/config/mosquitto.conf;
               fi;
           volumeMounts:
-            - name: mosquitto-config
+            - name: mosquitto-default
               mountPath: /mosquitto/config-default
-            - name: mosquitto-emptydir
+            - name: mosquitto-config
               mountPath: /mosquitto/config
       containers:
         - name: mosquitto
@@ -37,16 +37,16 @@ spec:
           volumeMounts:
             - name: mosquitto-data
               mountPath: /mosquitto/data
-            - name: mosquitto-config
+            - name: mosquitto-default
               mountPath: /mosquitto/config-default
-            - name: mosquitto-emptydir
+            - name: mosquitto-config
               mountPath: /mosquitto/config
       volumes:
         - name: mosquitto-data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-mosquitto-data
-        - name: mosquitto-config
+        - name: mosquitto-default
           configMap:
             name: {{ .Release.Name }}-mosquitto-config
-        - name: mosquitto-emptydir
+        - name: mosquitto-config
           emptyDir: {}
