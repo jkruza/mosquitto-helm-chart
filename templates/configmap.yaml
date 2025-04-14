@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Chart.Name }}
 data:
-  mosquitto.conf: |
+  default.conf: |
     persistence true
     persistence_location /mosquitto/data/
     log_dest stdout
