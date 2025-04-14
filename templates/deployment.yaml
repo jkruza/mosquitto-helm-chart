@@ -23,12 +23,16 @@ spec:
           volumeMounts:
             - name: mosquitto-data
               mountPath: /mosquitto/data
-            - name: mosquitto-config
-              mountPath: /mosquitto/config
+            # - name: mosquitto-config
+            #   mountPath: /mosquitto/config
+            - name: mosquitto-emptydir
+              mountPath: /mosquitto
       volumes:
         - name: mosquitto-data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-mosquitto-data
-        - name: mosquitto-config
-          configMap:
-            name: {{ .Release.Name }}-mosquitto-config
+        # - name: mosquitto-config
+        #   configMap:
+        #     name: {{ .Release.Name }}-mosquitto-config
+        - name: mosquitto-emptydir
+          emptyDir: {}
